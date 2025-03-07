@@ -2,17 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_gaussian_quantiles
 
-# Crear datasets desde cero - Para un ejemplo de clasificación
+# Create datasets from scratch - Example for classification
 def create_dataset(N=1000):
     """
-    Genera un conjunto de datos sintético con dos clases usando distribuciones gaussianas.
-    
-    Parámetros:
-    N (int): Número de muestras a generar.
-    
-    Retorna:
-    X (numpy.ndarray): Matriz de características.
-    Y (numpy.ndarray): Vector de etiquetas con valores 0 o 1.
+    Generates a synthetic dataset with two classes using Gaussian distributions.
+
+    Parameters:
+    N (int): Number of samples to generate.
+
+    Returns:
+    X (numpy.ndarray): Feature matrix.
+    Y (numpy.ndarray): Label vector with values 0 or 1.
     """
     gaussian_quantiles = make_gaussian_quantiles(
         mean=None,
@@ -24,20 +24,20 @@ def create_dataset(N=1000):
         random_state=None
     )
     X, Y = gaussian_quantiles
-    Y = Y[:, np.newaxis]  # Convertir a matriz columna
+    Y = Y[:, np.newaxis]  # Convert to column matrix
     return X, Y
 
-# Funciones de activación
+# Activation functions
 def sigmoid(x, derivate=False):
     """
-    Función de activación sigmoide.
-    
-    Parámetros:
-    x (numpy.ndarray): Entrada a la función de activación.
-    derivate (bool): Si es True, calcula la derivada de la función sigmoide.
-    
-    Retorna:
-    numpy.ndarray: Salida de la sigmoide o su derivada.
+    Sigmoid activation function.
+
+    Parameters:
+    x (numpy.ndarray): Input to the activation function.
+    derivate (bool): If True, calculates the derivative of the sigmoid function.
+
+    Returns:
+    numpy.ndarray: Sigmoid output or its derivative.
     """
     if derivate:
         return np.exp(-x) / (np.exp(-x) + 1)**2
@@ -46,14 +46,14 @@ def sigmoid(x, derivate=False):
 
 def relu(x, derivate=False):
     """
-    Función de activación ReLU.
-    
-    Parámetros:
-    x (numpy.ndarray): Entrada a la función de activación.
-    derivate (bool): Si es True, calcula la derivada de la función ReLU.
-    
-    Retorna:
-    numpy.ndarray: Salida de la ReLU o su derivada.
+    ReLU activation function.
+
+    Parameters:
+    x (numpy.ndarray): Input to the activation function.
+    derivate (bool): If True, calculates the derivative of the ReLU function.
+
+    Returns:
+    numpy.ndarray: ReLU output or its derivative.
     """
     if derivate:
         x[x <= 0] = 0
@@ -62,34 +62,34 @@ def relu(x, derivate=False):
     else:
         return np.maximum(0, x)
 
-# Función de pérdida
+# Loss function
 def mse(y, y_hat, derivate=False):
     """
-    Calcula el error cuadrático medio (MSE).
-    
-    Parámetros:
-    y (numpy.ndarray): Valores reales.
-    y_hat (numpy.ndarray): Predicciones.
-    derivate (bool): Si es True, calcula la derivada del MSE.
-    
-    Retorna:
-    float o numpy.ndarray: Valor del error o su derivada.
+    Computes the Mean Squared Error (MSE).
+
+    Parameters:
+    y (numpy.ndarray): True values.
+    y_hat (numpy.ndarray): Predictions.
+    derivate (bool): If True, computes the derivative of the MSE.
+
+    Returns:
+    float or numpy.ndarray: Error value or its derivative.
     """
     if derivate:
         return (y_hat - y)
     else:
         return np.mean((y_hat - y)**2)
 
-# Inicialización de pesos y sesgos
+# Weight and bias initialization
 def initialize_parameters_deep(layers_dims):
     """
-    Inicializa los pesos y sesgos de la red neuronal.
-    
-    Parámetros:
-    layers_dims (list): Lista con el número de neuronas en cada capa.
-    
-    Retorna:
-    dict: Diccionario con los parámetros de la red (pesos y sesgos).
+    Initializes the weights and biases of the neural network.
+
+    Parameters:
+    layers_dims (list): List with the number of neurons in each layer.
+
+    Returns:
+    dict: Dictionary containing the network parameters (weights and biases).
     """
     parameters = {}
     L = len(layers_dims)
@@ -98,24 +98,24 @@ def initialize_parameters_deep(layers_dims):
         parameters['b' + str(l+1)] = (np.random.rand(1, layers_dims[l+1]) * 2) - 1
     return parameters
 
-# Entrenamiento de la red neuronal
+# Neural network training
 def train(x_data, y_data, learning_rate, params, training=True):
     """
-    Propagación hacia adelante y hacia atrás para el entrenamiento de la red neuronal.
-    
-    Parámetros:
-    x_data (numpy.ndarray): Datos de entrada.
-    y_data (numpy.ndarray): Etiquetas reales.
-    learning_rate (float): Tasa de aprendizaje.
-    params (dict): Diccionario con los parámetros de la red.
-    training (bool): Si es True, realiza el ajuste de pesos y sesgos.
-    
-    Retorna:
-    numpy.ndarray: Salida de la red neuronal.
+    Forward and backward propagation for training the neural network.
+
+    Parameters:
+    x_data (numpy.ndarray): Input data.
+    y_data (numpy.ndarray): True labels.
+    learning_rate (float): Learning rate.
+    params (dict): Dictionary with network parameters.
+    training (bool): If True, adjusts weights and biases.
+
+    Returns:
+    numpy.ndarray: Neural network output.
     """
     params['A0'] = x_data
 
-    # Propagación hacia adelante
+    # Forward propagation
     params['Z1'] = np.matmul(params['A0'], params['W1']) + params['b1']
     params['A1'] = relu(params['Z1'])
 
@@ -138,7 +138,7 @@ def train(x_data, y_data, learning_rate, params, training=True):
         params['dZ1'] = np.matmul(params['dZ2'], params['W2'].T) * relu(params['A1'], True)
         params['dW1'] = np.matmul(params['A0'].T, params['dZ1'])
 
-        # Actualización de parámetros usando gradiente descendente
+        # Parameter update using gradient descent
         params['W3'] -= params['dW3'] * learning_rate
         params['W2'] -= params['dW2'] * learning_rate
         params['W1'] -= params['dW1'] * learning_rate
@@ -149,10 +149,10 @@ def train(x_data, y_data, learning_rate, params, training=True):
 
     return output
 
-# Función principal para entrenar el modelo
+# Main function to train the model
 def train_model():
     """
-    Entrena la red neuronal y visualiza los datos.
+    Trains the neural network and visualizes the data.
     """
     X, Y = create_dataset()
     layers_dims = [2, 6, 10, 1]
@@ -165,6 +165,6 @@ def train_model():
             print(mse(Y, output))
             error.append(mse(Y, output))
 
-    # Graficar los datos
+    # Plot the data
     plt.scatter(X[:, 0], X[:, 1], c=Y, s=40, cmap=plt.cm.Spectral)
     plt.show()

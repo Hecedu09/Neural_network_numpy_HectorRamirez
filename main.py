@@ -1,8 +1,8 @@
 from src.numpycode import train_model
 
-# Punto de entrada del script
+# Script entry point
 if __name__ == "__main__":
     """
-    Ejecuta la función principal de entrenamiento del modelo cuando el script se ejecuta directamente.
+    Runs the main model training function when the script is executed directly.
     """
     train_model()
