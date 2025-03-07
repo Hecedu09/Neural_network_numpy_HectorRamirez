@@ -1,4 +1,4 @@
-# Proyecto: activation_function_H-ctorRamirez
+# Proyecto: Neural_network_numpy_HectorRamirez
 
 Este proyecto implementa una red neuronal simple en Python utilizando `numpy` y `matplotlib`, con funciones de activación como Sigmoide y ReLU. Además, permite entrenar el modelo en un conjunto de datos sintético y visualizar los resultados.
 
@@ -16,8 +16,8 @@ Este proyecto implementa una red neuronal simple en Python utilizando `numpy` y 
 ### 1. Clonar el Repositorio
 Para obtener el código fuente, clona el repositorio en tu máquina local:
 ```bash
-git clone https://github.com/tu-usuario/activation_function_H-ctorRamirez.git
-cd activation_function_H-ctorRamirez
+git clone https://github.com/tu-usuario/Neural_network_numpy_HectorRamirez.git
+cd Neural_network_numpy_HectorRamirez
 ```
 
 ### 2. Crear un Entorno Virtual y Instalar Dependencias
